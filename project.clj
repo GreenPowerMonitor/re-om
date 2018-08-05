@@ -1,5 +1,5 @@
 (defproject greenpowermonitor/re-om "0.1.0-SNAPSHOT"
-  :description ""
+  :description "A re-frame inspired Om framework for both writing new SPA and giving new life to existing legacy SPAs."
   ;:url "https://github.com/GreenPowerMonitor/re-om"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
