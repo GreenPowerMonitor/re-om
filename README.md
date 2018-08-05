@@ -1,14 +1,14 @@
 # re-om
 
-A Clojure library designed to ... well, that part is up to you.
+A re-frame inspired Om framework for both writing new SPAs
+and giving new life to existing legacy SPAs.
 
 ## Usage
 
-FIXME
+We'll grow re-om's documentation bit by bit in the following months.
 
 ## License
 
-Copyright © 2018 FIXME
+Copyright © 2018 GreenPowerMonitor
 
-Distributed under the Eclipse Public License either version 1.0 or (at
-your option) any later version.
+Distributed under the Eclipse Public License version 1.0.
