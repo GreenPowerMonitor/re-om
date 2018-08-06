@@ -1,11 +1,13 @@
 (defproject greenpowermonitor/re-om "0.1.0-SNAPSHOT"
-  :description "A re-frame inspired Om framework for both writing new SPA and giving new life to existing legacy SPAs."
-  ;:url "https://github.com/GreenPowerMonitor/re-om"
+  :description "A re-frame inspired Om framework for both writing new SPA and giving new life to existing legacy SPAs"
+
+  :url "https://github.com/GreenPowerMonitor/re-om"
+
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
 
-  ;:scm {:name "git"
-  ;      :url "https://github.com/GreenPowerMonitor/re-om"}
+  :scm {:name "git"
+        :url "https://github.com/GreenPowerMonitor/re-om"}
 
   :dependencies [[greenpowermonitor/reffectory "0.1.0-SNAPSHOT"]]
 
