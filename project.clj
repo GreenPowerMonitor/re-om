@@ -18,7 +18,6 @@
                                   [cljs-react-test "0.1.4-SNAPSHOT"]
                                   [cljsjs/react-dom "15.2.0-0" :exclusions [cljsjs/react]]
                                   [sablono "0.8.4" :exclusions [cljsjs/react cljsjs/react-with-addons cljsjs/react-dom]]
-                                  [greenpowermonitor/test-doubles "0.1.3-SNAPSHOT"]
                                   [prismatic/dommy "1.1.0"]]}}
 
   :plugins [[lein-cljsbuild "1.1.7"]
