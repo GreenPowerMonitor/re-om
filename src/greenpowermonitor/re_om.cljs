@@ -59,9 +59,6 @@
  (fn [_ cofx]
    (assoc cofx :db @*db*)))
 
-(defn register-sub! [sub-id f]
-  (swap! subs-handlers assoc-in [:subs sub-id] f))
-
 (defn- update-cache [sub-id args result]
   (let [path [sub-id args]
         result-atom (get-in @subs-cache path)]
@@ -73,13 +70,25 @@
   (when atom
     @atom))
 
+(defn register-sub! [sub-id f]
+  (let [inputs-fn (fn [] @*db*)
+        last-inputs (atom nil)]
+    (swap! subs-handlers assoc-in [:subs sub-id]
+           (fn [args owner]
+             (let [inputs (inputs-fn)]
+               (if-not (= @last-inputs inputs)
+                 (do
+                   (reset! last-inputs inputs)
+                   (swap! subs update-in [sub-id args] #(conj (set %) owner))
+                   (let [result (f inputs args)]
+                     (when (not= result (safe-deref (get-in @subs-cache [sub-id args])))
+                       (update-cache sub-id args result))
+                     result))
+                 (safe-deref (get-in @subs-cache [sub-id args]))))))))
+
 (defn subscribe [[sub-id & args] owner]
   (let [handler (get-subs-handler sub-id)]
-    (swap! subs update-in [sub-id args] #(conj (set %) owner))
-    (or (safe-deref (get-in @subs-cache [sub-id args]))
-        (let [result (handler @*db* args)]
-          (update-cache sub-id args result)
-          result))))
+    (handler args owner)))
 
 (defn get [[sub-id & args] db]
   (let [handler (get-subs-handler sub-id)]
@@ -106,13 +115,11 @@
                   (doseq [[sub-id data] @subs]
                     (let [handler (get-subs-handler sub-id)]
                       (doseq [[args owners] data]
-                        (when (any-owner-mounted? owners)
-                          (let [result (handler new-state args)]
-                            (when (not= result (safe-deref (get-in @subs-cache [sub-id args])))
-                              (update-cache sub-id args result))))
                         (doseq [owner owners]
                           (if (om/mounted? owner)
-                            (om/refresh! owner)
+                            (do
+                              (handler args owner)
+                              (om/refresh! owner))
                             (if (= 1 (count owners))
                               (swap! subs update sub-id #(dissoc % args))
                               (swap! subs update-in [sub-id args] #(disj % owner)))))))))))

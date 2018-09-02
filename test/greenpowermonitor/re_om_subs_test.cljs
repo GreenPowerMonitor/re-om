@@ -13,10 +13,6 @@
 (defn my-sub-fn [db args]
   :result)
 
-(deftest registering-a-subscription
-  (sut/register-sub! ::my-sub my-sub-fn)
-  (is (= my-sub-fn (sut/get-handler :subs ::my-sub))))
-
 (deftest when-subscription-does-not-exist-throw-an-exception
   (try
     (sut/subscribe [::does-not-exist] nil)
