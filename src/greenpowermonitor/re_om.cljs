@@ -62,12 +62,23 @@
 (defn register-sub! [sub-id f]
   (swap! subs-handlers assoc-in [:subs sub-id] f))
 
+(defn- update-cache [sub-id args result]
+  (let [path [sub-id args]
+        result-atom (get-in @subs-cache path)]
+    (if result-atom
+      (reset! result-atom result)
+      (swap! subs-cache assoc-in [sub-id args] (atom result)))))
+
+(defn- safe-deref [atom]
+  (when atom
+    @atom))
+
 (defn subscribe [[sub-id & args] owner]
   (let [handler (get-subs-handler sub-id)]
     (swap! subs update-in [sub-id args] #(conj (set %) owner))
-    (or (get-in @subs-cache [sub-id args])
+    (or (safe-deref (get-in @subs-cache [sub-id args]))
         (let [result (handler @*db* args)]
-          (swap! subs-cache assoc-in [sub-id args] result)
+          (update-cache sub-id args result)
           result))))
 
 (defn get [[sub-id & args] db]
@@ -97,8 +108,8 @@
                       (doseq [[args owners] data]
                         (when (any-owner-mounted? owners)
                           (let [result (handler new-state args)]
-                            (when (not= result (get-in @subs-cache [sub-id args]))
-                              (swap! subs-cache assoc-in [sub-id args] result))))
+                            (when (not= result (safe-deref (get-in @subs-cache [sub-id args])))
+                              (update-cache sub-id args result))))
                         (doseq [owner owners]
                           (if (om/mounted? owner)
                             (om/refresh! owner)
