@@ -30,15 +30,28 @@
 (defn- inner-html [container selector]
   (some-> container (sel1 selector) .-innerHTML))
 
+(defn- sub-view [data owner]
+  (om/component
+   (html
+    [:div#re-om-test
+     (let [value (sut/subscribe [::test-subscription :args-value] owner)]
+       value)])))
+
+(defn- no-sub-view [data owner]
+  (om/component
+   (html
+    [:div#re-om-test
+     "ok"])))
+
 (defn- mount-component-on-root! []
   (om/root
-   (fn [_ owner]
+   (fn [data owner]
      (om/component
       (html
-       [:div#re-om-test
-        (let [value (sut/subscribe [::test-subscription :args-value] owner)]
-          value)])))
-   {}
+       (case (:view data)
+         :no-subscription (om/build no-sub-view {})
+         (om/build sub-view {})))))
+   sut/*db*
    {:target fixtures/c}))
 
 (deftest subscriptions-works-with-re-om-db
@@ -67,8 +80,8 @@
            (done))))
 
 (deftest subscriptions-works-with-an-external-db
-  (let [external-db (atom {:some-key :initial-value})]
-    (async done
+  (async done
+         (let [external-db (atom {:some-key :initial-value})]
            (sut/register-sub!
             ::test-subscription
             (fn [db args]
@@ -89,5 +102,48 @@
 
              (is (= (str :some-new-value :args-value)
                     (inner-html fixtures/c "#re-om-test")))
+
+             (done)))))
+
+(deftest subscriptions-only-execute-when-component-is-mounted
+  (async done
+         (let [times-executed (atom 0)]
+           (sut/register-sub!
+            ::test-subscription
+            (fn [db args]
+              (swap! times-executed inc)
+              (apply str (:some-key db) args)))
+           (sut/register-event-handler!
+            ::show-view-without-subscription
+            (fn [{:keys [db]} _]
+              {:db (assoc db :view :no-subscription)}))
+
+           (go
+             (sut/dispatch! [::sut/init-db])
+             ;; Executes once
+             (mount-component-on-root!)
+
+             (<! (core.async/timeout 300))
+
+             (is (= (str nil :args-value)
+                    (inner-html fixtures/c "#re-om-test")))
+
+             ;; Executes again
+             (swap! sut/*db* assoc :some-key :koko)
+
+             (<! (core.async/timeout 300))
+
+             (is (= (str :koko :args-value)
+                    (inner-html fixtures/c "#re-om-test")))
+
+             ;; Executes again
+             (sut/dispatch! [::show-view-without-subscription])
+
+             (<! (core.async/timeout 300))
+
+             ;; Should not execute sub
+             (swap! sut/*db* assoc :some-key :should-not-rerun-sub)
+
+             (is (= 3 @times-executed))
 
              (done)))))
