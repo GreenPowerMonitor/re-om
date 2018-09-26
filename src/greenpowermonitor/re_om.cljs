@@ -18,7 +18,7 @@
   (if-let [handler (get-in @subs-handlers [:subs id])]
     handler
     (throw (ex-info
-            "Not registered handler!!"
+            "No handler registered!!"
             {:cause :no-handler-registered
              :id id
              :handler-type :subs}))))
