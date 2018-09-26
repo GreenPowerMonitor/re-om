@@ -3,6 +3,10 @@
 A re-frame inspired Om framework for both writing new SPAs
 and giving new life to existing legacy SPAs.
 
+## Install
+
+Add `[greenpowermonitor/re-om "0.1.0-SNAPSHOT"]` to `[:dependencies]` in your `project.clj`.
+
 ## Usage
 
 We'll grow re-om's documentation bit by bit in the following months.
