@@ -25,9 +25,9 @@ Using **effects and coeffects** it is a way of getting the **separation of conce
 
 Any piece of logic using a design based on effects and coeffects is comprised of three parts:
 
-1 .Extracting all the needed data from "the world" (using coeffects for getting application state, getting component state, getting DOM state, etc).
+1. Extracting all the needed data from "the world" (using coeffects for getting application state, getting component state, getting DOM state, etc).
 2. Using pure functions to compute the description of the side effects to be performed (returning effects for updating application state, sending messages, etc) given what was extracted from "the world" in the previous step (the coeffects).
-3. Performing the side effects described by the effects returned by the called pure functions.
+3. Performing the side effects described by the effects returned by the pure functions executed in the previous step.
 
 At the beginning, when `re-om` wasn't yet accepted by everyone in the team, we used some examples in horizon which where creating these coeffects and effects manually, (have a look at [Improving legacy Om code (I)](https://www.codesai.com/2018/07/improving-legacy-om-code-1) and [Improving legacy Om code (II)](https://www.codesai.com/2018/07/improving-legacy-om-code-2)), but this can get cumbersome quickly.
 
