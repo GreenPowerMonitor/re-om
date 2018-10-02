@@ -35,7 +35,7 @@ At the beginning, when `re-om` wasn't yet accepted by everyone in the team, we u
 
 Some of us had worked with effects and coeffects before while developing SPAs with [re-frame](https://github.com/Day8/re-frame) and had experienced how good it is. After working with `re-frame`, when you come to horizon, you realize how a good architecture can make a dramatic difference in clarity, testability, understandability and easiness of change.
 
-Having a framework like `re-frame` removes most of the boiler plate of working with effects and coeffects, creating clear boundaries and constraints that separate pure code from effectful code and gives you a very clear flow to add new functionality that's very easy to test and protect from regressions. In that sense `re-frame`'s architecture can be considered what Jeff Atwood defined as a pit of success  because it is:
+Having a framework like `re-frame` removes most of the boilerplate of working with effects and coeffects, creating clear boundaries and constraints that separate pure code from effectful code and gives you a very clear flow to add new functionality that's very easy to test and protect from regressions. In that sense `re-frame`'s architecture can be considered what [Jeff Atwood](https://blog.codinghorror.com/) defined as [**a pit of success**](https://blog.codinghorror.com/falling-into-the-pit-of-success/) because it is:
 
 > **“a design that makes it easy to do the right things and annoying (but not impossible) to do the wrong**
 > **things.”**
