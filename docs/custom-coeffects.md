@@ -8,7 +8,7 @@ any other parameters to get the value tracked by the **coeffect** should go befo
 Below there's an example of a **coeffect handler** that gets data from the local store.
 
 ```clj
-(register-cofx!
+(re-om/register-cofx!
    :local-store
    (fn [local-store-key cofx]
     (assoc cofx
@@ -19,7 +19,7 @@ Below there's an example of a **coeffect handler** that gets data from the local
 This other **coeffect handler** example is used to get environment variables:
 
 ```clj
-(register-cofx!
+(re-om/register-cofx!
   :env
   (fn [variables-kws cofx]
     (assoc cofx
