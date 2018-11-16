@@ -42,6 +42,8 @@
     (conj interceptors (inject-cofx :db nil))
     handler)))
 
+(def interceptor reffect/interceptor)
+
 (def dispatch! reffect/dispatch!)
 
 (def dispatch-n! reffect/dispatch-n!)
