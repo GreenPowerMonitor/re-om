@@ -1,6 +1,6 @@
-#Built-in effects in re-om
+# Built-in effects in re-om
 
-##:db
+## :db
 
 The `:db` effect is used to reset the whole `app-state`.
 
@@ -42,7 +42,7 @@ In the following case the payload of the dispatched event, `::svg.fetch`, is emp
    {:dispatch [::svg.fetch]}))
 ```
 
-##:dispatch-n
+## :dispatch-n
 The `:dispatch-n` effect is **used to dispatch a sequence of events in order**.
 
 In the following example the event handler for the `::page-change` event evaluates to an effect map that includes a `:dispatch-n` effect  which will dispatch the `::meta.fetch` event with a payload of `[35]` and a `::svg.fetch` event with an empty payload.
@@ -56,10 +56,10 @@ In the following example the event handler for the `::page-change` event evaluat
 ```
 
 
-##:dispatch-later
-The `:dispatch-later` effect is **used to dispatch an event after some time**.
+## :dispatch-later
+The `:dispatch-later` effect is **used to dispatch an event after some milliseconds**.
 
-The data associated to a `:dispatch` effect is a **map** whose value for the `:ts` key is the number of milliseconds the dispatch will be delayed and the value for the `:events` keyword is the event that will be dispatched. The event is represented in the same way all evebnt
+The data associated to a `:dispatch` effect is a **map** whose value for the `:ts` key is the number of milliseconds the dispatch will be delayed, and the value for the `:events` keyword is the event that will be dispatched. The event is represented in the same way all evebnt
 
 In the following example the event handler for the `::remove-calendar-with-delay!` event evaluates to an effect map that includes a `:dispatch-later` effect  which will dispatch after `calendar-remove-delay` the `::remove-calendar!` event with a payload of `[calendar-remove-fn]`.
 
