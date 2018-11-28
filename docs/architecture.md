@@ -54,7 +54,7 @@ The combining function for the reduce is the set of registered event handlers. T
 
 The constraints of this architecture helps you to **easily isolate your domain logic which is comprised only by pure functions from effectful code**. Those pure functions will form a **functional core** which **communicates with the outside using events, coeffects and effects**.
 
-![pure_functional_core.jpg](.imgs/pure_functional_core.jpg)
+![pure_functional_core.jpg](imgs/pure_functional_core.jpg)
 
 Around this **functional core** we will find a thin layer of effectful code, the **imperative shell**, comprised by effect handlers and coeffect handlers that use whatever libraries or code they need to interact with the world.
 
