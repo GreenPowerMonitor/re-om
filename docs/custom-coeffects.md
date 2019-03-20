@@ -1,3 +1,5 @@
+# Registering custom coeffect handlers in re-om
+
 You can register custom **coeffect handlers** using the `register-cofx!` function.
 
 A **coeffect handler** is a function that extracts a value from a **coeffect** and associates it to its key in the **coeffects map**.
