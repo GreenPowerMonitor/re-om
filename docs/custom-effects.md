@@ -16,8 +16,7 @@ Example:
       (om/set-state! owner kw value))
 ```
 
-In this example we're registering a `:om/state``effect which can be used to mutate values of the local state of an Om control using the keywords those values are associated to.
-This effect allows you to change an Om control local state from pure event handlers as shown in the following code snippet:
+In this example we're registering a `:om/state` effect which can be used to mutate values of the local state of an Om control using the keywords those values are associated to. This effect allows you to change an Om control local state from pure event handlers as shown in the following code snippet:
 
 ```clj
 (re-om/register-event-handler!
