@@ -75,6 +75,7 @@ This way we could start carving islands of pure functional code inside horizon's
 * [Effects & Coeffects](https://github.com/GreenPowerMonitor/re-om/blob/master/docs/effects-and-coeffects.md)
   * [Built-in Effects](https://github.com/GreenPowerMonitor/re-om/blob/master/docs/built-in-effects.md)
   * [Built-in Coeffects](https://github.com/GreenPowerMonitor/re-om/blob/master/docs/built-in-coeffects.md)
+  * [Registering custom effect handlers](https://github.com/GreenPowerMonitor/re-om/blob/master/docs/custom-effects.md)
   * [Registering custom coeffect handlers](https://github.com/GreenPowerMonitor/re-om/blob/master/docs/custom-coeffects.md)
 
 
