@@ -5,9 +5,7 @@ You can register custom **coeffect handlers** using re-om's `register-fx!` funct
 `register-fx!` receives two parameters, the first one is the **effect identifier** and the second one is the **effect handler**.
 
 An **effect handler** is a function that performs a side-effect described by an effect.
-Remember that [effects are descriptions of side-effects](https://github.com/GreenPowerMonitor/re-om/blob/master/docs/effects-and-coeffects.md), so **effect handlers** are interpreters of those descriptions that will know how to perform the described side-effects.
-
-An effect handler receives only one parameter: **the description of the side-effect to be performed, i.** e., the **effect**.
+Remember that [effects are descriptions of side-effects](https://github.com/GreenPowerMonitor/re-om/blob/master/docs/effects-and-coeffects.md), so **effect handlers** are interpreters of those descriptions that will know how to perform the described side-effects. The effect handler receives only one parameter: **the description of the side-effect to be performed, i.** e., the **effect**.
 
 Example:
 ```clojure
@@ -31,9 +29,11 @@ This effect allows you to change an Om control local state from pure event handl
                  :expanded (not expanded)}]}))
 ```
 
-In this example, the event handler for the `::update-state-on-click` event returns the `om/state` effect
-which describes a mutation of the values associated to the `:selected` and ` :expanded` keywords
-in the Om control's state referenced by the `owner` parameter. The value associated to the `om/state` effect in the effects state is a map associating the keywords that will change in the control state to their new values.
+In this example, the event handler for the `::update-state-on-click` event returns an `om/state` effect
+that *describes a mutation* of the values associated to the `:selected` and `:expanded` keywords
+in the state of an Om control referenced by the `owner` parameter. 
+
+Notice how the value associated to the `om/state` effect in the effects state is a vector whose elements are the `owner` and a map that associates the keywords that will change in the control state to their new values.
 
 Notice also that the previous values of those two keywords were retrieved using a custom coeffect also identified by `:om/state`,
 If you want to know how to register custom coeffect handlers, have a look at [Registering custom coeffect handlers in re-om](https://github.com/GreenPowerMonitor/re-om/blob/master/docs/custom-coeffects.md).
