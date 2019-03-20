@@ -68,7 +68,13 @@ A really important characteristic of **`re-om` is that it’s not invasive**. Si
 This way we could start carving islands of pure functional code inside horizon's imperative soup, and introduced some sanity making horizon's development more sustainable.
 
 
-## Usage
+## Documentation
+
+[re-om's architecture](https://github.com/GreenPowerMonitor/re-om/blob/master/docs/architecture.md)
+[Built-in Coeffects](https://github.com/GreenPowerMonitor/re-om/blob/master/docs/built-in-coeffects.md)
+[Built-in Effects](https://github.com/GreenPowerMonitor/re-om/blob/master/docs/built-in-effects.md)
+[Registering custom coeffect handlers](https://github.com/GreenPowerMonitor/re-om/blob/master/docs/custom-coeffects.md)
+
 
 We'll grow re-om's documentation bit by bit in the following months.
 
