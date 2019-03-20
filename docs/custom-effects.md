@@ -29,11 +29,9 @@ This effect allows you to change an Om control local state from pure event handl
                  :expanded (not expanded)}]}))
 ```
 
-In this example, the event handler for the `::update-state-on-click` event returns an `om/state` effect
-that *describes a mutation* of the values associated to the `:selected` and `:expanded` keywords
-in the state of an Om control referenced by the `owner` parameter. 
+In this example, the event handler for the `::update-state-on-click` event returns an effects map containing the `om/state` effect which **describes a mutation** of the values associated to the `:selected` and `:expanded` keywords in the state of an Om control referenced by the `owner` parameter.
 
-Notice how the value associated to the `om/state` effect in the effects state is a vector whose elements are the `owner` and a map that associates the keywords that will change in the control state to their new values.
+Notice how the value associated to the `om/state` effect in the **effects map** is a vector whose elements are the `owner` and a map that associates the keywords that will change in the control's state to their new values.
 
 Notice also that the previous values of those two keywords were retrieved using a custom coeffect also identified by `:om/state`,
 If you want to know how to register custom coeffect handlers, have a look at [Registering custom coeffect handlers in re-om](https://github.com/GreenPowerMonitor/re-om/blob/master/docs/custom-coeffects.md).
