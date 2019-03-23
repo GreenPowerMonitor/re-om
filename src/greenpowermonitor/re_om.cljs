@@ -61,9 +61,6 @@
  (fn [_ cofx]
    (assoc cofx :db @*db*)))
 
-(defn register-sub! [sub-id f]
-  (swap! subs-handlers assoc-in [:subs sub-id] f))
-
 (defn- update-cache [sub-id args result]
   (let [path [sub-id args]
         result-atom (get-in @subs-cache path)]
@@ -77,11 +74,47 @@
 
 (defn subscribe [[sub-id & args] owner]
   (let [handler (get-subs-handler sub-id)]
-    (swap! subs update-in [sub-id args] #(conj (set %) owner))
-    (or (safe-deref (get-in @subs-cache [sub-id args]))
-        (let [result (handler @*db* args)]
-          (update-cache sub-id args result)
-          result))))
+    (handler args owner)))
+
+(defn- get-inputs-fn [args owner]
+  (let [input-args (butlast args)]
+    (case (count input-args)
+      ;; no `inputs` function provided - give the default
+      0 (fn []
+          @*db*)
+
+      ;; one sugar pair
+      2 (let [[marker vec] input-args]
+          (when-not (= :<- marker)
+            (println "expected :<-, got:" marker))
+          (fn []
+            (subscribe vec owner)))
+
+      ;; multiple sugar pairs
+      (let [pairs   (partition 2 input-args)
+            markers (map first pairs)
+            vecs    (map last pairs)]
+        (when-not (and (every? #{:<-} markers) (every? vector? vecs))
+          (println "expected pairs of :<- and vectors, got:" pairs))
+        (fn []
+          (map #(subscribe % owner) vecs))))))
+
+(defn register-sub! [sub-id & sub-args]
+  (let [last-inputs (atom nil)]
+    (swap! subs-handlers assoc-in [:subs sub-id]
+           (fn [args owner]
+             (let [inputs-fn (get-inputs-fn sub-args owner)
+                   inputs (inputs-fn)
+                   computation-fn (last sub-args)]
+               (if-not (= @last-inputs inputs)
+                 (do
+                   (reset! last-inputs inputs)
+                   (swap! subs update-in [sub-id args] #(conj (set %) owner))
+                   (let [result (computation-fn inputs args)]
+                     (when (not= result (safe-deref (get-in @subs-cache [sub-id args])))
+                       (update-cache sub-id args result))
+                     result))
+                 (safe-deref (get-in @subs-cache [sub-id args]))))))))
 
 (defn get [[sub-id & args] db]
   (let [handler (get-subs-handler sub-id)]
@@ -108,13 +141,11 @@
                   (doseq [[sub-id data] @subs]
                     (let [handler (get-subs-handler sub-id)]
                       (doseq [[args owners] data]
-                        (when (any-owner-mounted? owners)
-                          (let [result (handler new-state args)]
-                            (when (not= result (safe-deref (get-in @subs-cache [sub-id args])))
-                              (update-cache sub-id args result))))
                         (doseq [owner owners]
                           (if (om/mounted? owner)
-                            (om/refresh! owner)
+                            (do
+                              (handler args owner)
+                              (om/refresh! owner))
                             (if (= 1 (count owners))
                               (swap! subs update sub-id #(dissoc % args))
                               (swap! subs update-in [sub-id args] #(disj % owner)))))))))))
