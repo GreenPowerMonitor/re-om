@@ -8,6 +8,9 @@ See [dispatch-n! in reffectory](https://github.com/GreenPowerMonitor/reffectory/
 
 ## `register-event-handler!
 It delegates on reffectory.`
+
+TODO
+
   ([event-id handler] (register-event-handler! event-id [] handler))
   ([event-id interceptors handler]
    (reffect/register-event-handler!
@@ -36,20 +39,25 @@ It delegates on reffectory.
 See [interceptor in reffectory](https://github.com/GreenPowerMonitor/reffectory/blob/master/docs/api.md#interceptor).
 
 ## `mutate-db!`
-[db]
+It receives the new value of the whole app-state and sets it. You should use `mutate-db!` only from custom effects that do mutations on state. Never use it directly from any other part of you code. 
 
 ## `register-sub!`
-[sub-id f]
+This function is used to associate a given subscription with its handler.
+
+It receives two parameters: the subscription identifier which should be a keyword and the subscription handler which should be a function.
+
+Example: TODO
 
 ## `subscribe`
 [[sub-id & args] owner]
+TODO
 
 ## `get`
 [[sub-id & args] db]
+TODO
 
 ## `set-verbose!`
-[verbosity]
-reffect/verbose verbosity
+It sets the verbosity of the framework. It receives a boolean as parameter.
 
 ## Only for testing purposes
 
@@ -70,6 +78,8 @@ Example:
 
 ### `get-handlers-state`
 []
+TODO
 
-### `set-handlers-state!'
+### `set-handlers-state!`
 [state]
+TODO
