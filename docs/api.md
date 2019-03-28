@@ -1,11 +1,11 @@
 ## register-cofx!
-reffect/register-cofx!)
+See [register-cofx! in reffectory](https://github.com/GreenPowerMonitor/reffectory/blob/master/docs/api.md#register-cofx)
 
 ## register-fx!
 reffect/register-fx!)
 
 ## inject-cofx
-reffect/inject-cofx)
+See [register-cofx! in reffectory](https://github.com/GreenPowerMonitor/reffectory/blob/master/docs/api.md#inject-cofx)
 
 ## register-event-handler!
   ([event-id handler] (register-event-handler! event-id [] handler))
