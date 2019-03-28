@@ -78,7 +78,7 @@ This way we could start carving islands of pure functional code inside horizon's
   * [Registering custom effect handlers](https://github.com/GreenPowerMonitor/re-om/blob/master/docs/custom-effects.md)
   * [Registering custom coeffect handlers](https://github.com/GreenPowerMonitor/re-om/blob/master/docs/custom-coeffects.md)
 
-
+* [Built-in events](https://github.com/GreenPowerMonitor/re-om/blob/master/docs/built-in-events.md)
 
 We'll grow re-om's documentation bit by bit in the following months.
 
