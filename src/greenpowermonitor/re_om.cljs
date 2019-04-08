@@ -116,7 +116,9 @@
                           (if (om/mounted? owner)
                             (om/refresh! owner)
                             (if (= 1 (count owners))
-                              (swap! subs update sub-id #(dissoc % args))
+                              (do
+                                (swap! subs update sub-id dissoc args)
+                                (swap! subs-cache update sub-id dissoc args))
                               (swap! subs update-in [sub-id args] #(disj % owner)))))))))))
    {}))
 
