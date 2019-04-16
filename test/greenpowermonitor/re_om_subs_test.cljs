@@ -147,3 +147,32 @@
              (is (= 3 @times-executed))
 
              (done)))))
+
+(deftest subs-cache-is-cleared-after-an-unmount
+  (let [owner-mounted? (atom false)]
+    (with-redefs
+     [om/mounted? (fn [_] @owner-mounted?)]
+     (reset! owner-mounted? true)
+     (sut/register-sub!
+      ::test-subscription
+      (fn [db args]
+        [(get db :some-key) args]))
+     (sut/register-event-handler!
+      ::test-event
+      (fn [{:keys [db]} [v]]
+        {:db (assoc db :some-key v)}))
+
+     ;; base behavior
+     (sut/dispatch! [::sut/init-db])
+     (sut/dispatch! [::test-event :one])
+     (is (= [:one [:args1]] (sut/subscribe [::test-subscription :args1] :owner1)))
+
+     ;; force re-evaluation of ::test-subscription, but mounted? returns false
+     ;; => the subscription call is deregistered, and the cache should be cleared too
+     (reset! owner-mounted? false)
+     (sut/dispatch! [::test-event :two])
+
+     ;; mounted? returns true now, evaluate the subscription. it shouldn't return the same
+     ;; as the previous call
+     (reset! owner-mounted? true)
+     (is (= [:two [:args1]] (sut/subscribe [::test-subscription :args1] :owner1))))))
