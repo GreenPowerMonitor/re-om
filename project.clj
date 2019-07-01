@@ -1,4 +1,4 @@
-(defproject greenpowermonitor/re-om "0.1.0"
+(defproject greenpowermonitor/re-om "0.1.1-SNAPSHOT"
   :description "A re-frame inspired Om framework for both writing new SPA and giving new life to existing legacy SPAs"
 
   :url "https://github.com/GreenPowerMonitor/re-om"
