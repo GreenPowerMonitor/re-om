@@ -9,7 +9,7 @@
   :scm {:name "git"
         :url "https://github.com/GreenPowerMonitor/re-om"}
 
-  :dependencies [[greenpowermonitor/reffectory "0.1.0-SNAPSHOT"]]
+  :dependencies [[greenpowermonitor/reffectory "0.1.0"]]
 
   :profiles {:provided {:dependencies [[org.clojure/clojure "1.9.0"]
                                        [org.clojure/clojurescript "1.10.339"]
